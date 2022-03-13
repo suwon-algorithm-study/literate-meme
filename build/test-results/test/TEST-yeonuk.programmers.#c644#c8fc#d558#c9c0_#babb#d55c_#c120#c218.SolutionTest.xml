@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="yeonuk.programmers.완주하지_못한_선수.SolutionTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-13T01:24:51" hostname="MacBook-Pro-2.local" time="0.033">
+  <properties/>
+  <testcase name="1: [leo, kiki, eden]" classname="yeonuk.programmers.완주하지_못한_선수.SolutionTest" time="0.027"/>
+  <testcase name="2: [marina, josipa, nikola, vinko, filipa]" classname="yeonuk.programmers.완주하지_못한_선수.SolutionTest" time="0.001"/>
+  <testcase name="3: [mislav, stanko, mislav, ana]" classname="yeonuk.programmers.완주하지_못한_선수.SolutionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
