@@ -22,7 +22,7 @@ class SolutionTest {
     @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("provideArguments")
     @DisplayName("완주하지 못한 선수")
-    void test(String[] participant, String[] completion, String expect) {
+    void solve(String[] participant, String[] completion, String expect) {
         //given
         Solution solution = new Solution();
 
