@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/main/java/yeonuk/programmers/완주하지_못한_선수"/>
+	<classpathentry kind="src" path="src/test/java/yeonuk/programmers/완주하지_못한_선수"/>
+	<classpathentry kind="lib" path="build/libs/cote-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
