@@ -22,7 +22,10 @@ public class Solution {
             result += n/k;
             res += n%k;
             n /= k;
-            System.out.println("남은 도장 개수"+res);
+        }
+        if(res >= k){
+            res %= k;
+
         }
 
         System.out.println(result);
