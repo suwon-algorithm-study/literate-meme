@@ -23,7 +23,7 @@ public class No1 {
         return result;
     }
     static String checkCaseTwo(String info) {
-        String match = "[^0-9a-zA-Z._-]";
+        String match = "[^0-9a-z._-]";
         String result = info.replaceAll(match, "");
         System.out.println("case2: " + result);
         return result;
