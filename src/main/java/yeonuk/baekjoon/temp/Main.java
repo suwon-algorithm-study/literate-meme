@@ -9,12 +9,16 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        Main main = new Main();
-        Input input = new Input();
-        input.init();
+    public static void main(String[] args) {
+        try {
+            Input input = new Input();
+            input.init();
 
-        main.solve(input);
+            Main main = new Main();
+            main.solve(input);
+        } catch (IOException e) {
+            System.out.println("입력 오류");
+        }
     }
 
 
@@ -24,34 +28,35 @@ public class Main {
 
     static class Input {
 
-        private final BufferedReader br;
-
+        private int n;
+        private int m;
         private List<String> values;
 
         public Input() {
-            this.br = new BufferedReader(new InputStreamReader(System.in));
+            this.values = new ArrayList<>();
         }
 
-        public void init() {
-            try {
-                this.values = getInput();
-            } catch (IOException e) {
-                throw new IllegalArgumentException(e);
-            }
-        }
-
-        private List<String> getInput() throws IOException {
+        public void init() throws IOException {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             StringTokenizer stk = new StringTokenizer(br.readLine(), " ");
-            int n = Integer.parseInt(stk.nextToken());
-            int m = Integer.parseInt(stk.nextToken());
 
-            List<String> inputs = new ArrayList<>();
+            n = Integer.parseInt(stk.nextToken());
+            m = Integer.parseInt(stk.nextToken());
+
             stk = new StringTokenizer(br.readLine(), " ");
             for (int i = 0; i < n; i++) {
-                inputs.add(stk.nextToken());
+                values.add(stk.nextToken());
             }
 
-            return inputs;
+            br.close();
+        }
+
+        public int getN() {
+            return n;
+        }
+
+        public int getM() {
+            return m;
         }
 
         public List<String> getValues() {
