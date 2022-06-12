@@ -26,41 +26,42 @@ public class Main {
 
     }
 
-    static class Input {
+}
 
-        private int n;
-        private int m;
-        private List<String> values;
+class Input {
 
-        public Input() {
-            this.values = new ArrayList<>();
+    private int n;
+    private int m;
+    private List<String> values;
+
+    public Input() {
+        this.values = new ArrayList<>();
+    }
+
+    public void init() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stk = new StringTokenizer(br.readLine(), " ");
+
+        n = Integer.parseInt(stk.nextToken());
+        m = Integer.parseInt(stk.nextToken());
+
+        stk = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < n; i++) {
+            values.add(stk.nextToken());
         }
 
-        public void init() throws IOException {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            StringTokenizer stk = new StringTokenizer(br.readLine(), " ");
+        br.close();
+    }
 
-            n = Integer.parseInt(stk.nextToken());
-            m = Integer.parseInt(stk.nextToken());
+    public int getN() {
+        return n;
+    }
 
-            stk = new StringTokenizer(br.readLine(), " ");
-            for (int i = 0; i < n; i++) {
-                values.add(stk.nextToken());
-            }
+    public int getM() {
+        return m;
+    }
 
-            br.close();
-        }
-
-        public int getN() {
-            return n;
-        }
-
-        public int getM() {
-            return m;
-        }
-
-        public List<String> getValues() {
-            return values;
-        }
+    public List<String> getValues() {
+        return values;
     }
 }
