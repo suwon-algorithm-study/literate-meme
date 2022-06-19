@@ -1,87 +1,99 @@
 package jian.programmers.신고결과받기_92334;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
 public class Solution {
-	
-//	String[] id_list = {"muzi", "frodo", "apeach", "neo"};
-//	String[] report = {"muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi"};
-//	int k = 2;
 
-//	public static void main(String[] args) throws IOException {
-//		Solution solution = new Solution();
-		
-//		System.out.println(solution.solution());
-//	}
-	
 	public int[] solution(String[] id_list, String[] report, int k) {
-//	public int[] solution() {
-		
-		List<Map<String, String>> rpList = new ArrayList<Map<String,String>>();
-		Map<String, Integer> map = new LinkedHashMap<String, Integer>();
-		
-		// 0. 신고당한 횟수를 저장하는 map 초기화
-		for (int i = 0; i < id_list.length; i++) {
-			map.put(id_list[i], 0);
+		// 중복 제거한 [신고한 유저]-[신고당한 유저] 배열
+		report = Arrays.asList(report).stream()
+				.distinct().toArray(String[]::new);
+
+		List<User> user_list = new ArrayList<Solution.User>();
+
+		for (int u = 0; u < id_list.length; u++) {
+			User user = new User();
+			user.setUser(id_list[u]);
+			user_list.add(user);
 		}
 
-		Map<String, Integer> rsMap = new LinkedHashMap<String, Integer>(map);
+		for (int i = 0; i < report.length; i++) {
+			StringTokenizer st = new StringTokenizer(report[i]);
 
-		// 1. map에 이용자가 몇 번 신고당했는지 저장
-		for (int j = 0; j < report.length; j++) {
-			StringTokenizer st = new StringTokenizer(report[j]);
-
-			// 신고한 사람, 신고당한 사람 list
-			String user     = st.nextToken();
+			String userId   = st.nextToken();
 			String reported = st.nextToken();
-			
-			Map<String, String> tMap = new HashMap<>();
-			tMap.put(user, reported);
-			
-			rpList.add(tMap);
-			
-			rpList = rpList.stream()
-						.distinct()
-						.collect(Collectors.toList());
-		}
-		
-		for (int r = 0; r < rpList.size(); r++) {
-			for (Entry<String, String> e : rpList.get(r).entrySet()) {
-				int value = map.get(e.getValue());
-				map.put(e.getValue(), value+1);
-			}
-		}
-		
-		// 2. 신고당한 횟수가 k 이상인 이용자 찾기
-		Object[] overUser = map.entrySet().stream()
-				.filter(e -> e.getValue() >= k)
-				.map(Map.Entry::getKey)
-				.toArray();
-		
-		// 3. overUser를 신고한 이용자 찾기 ex. [frodo, neo]
-		for (int z = 0; z < overUser.length; z++) {
-			for (int x = 0; x < rpList.size(); x++) {
-				for (Entry<String, String> e : rpList.get(x).entrySet()) {
-					if (e.getValue().equals(overUser[z])) {
-						int value = rsMap.get(e.getKey());
-						rsMap.put(e.getKey(), value+1);
-					}
+
+			for (User userE : user_list) {
+				if (userE.getUser().equals(userId)) {
+					userE.addReportedId(reported);
+				}
+
+				if (userE.getUser().equals(reported)) {
+					userE.addReportedCnt();
 				}
 			}
 		}
-		
-		int[] answer = rsMap.entrySet().stream()
-						.mapToInt(Map.Entry::getValue)
-						.toArray();
-		
+
+		// k번 이상 신고당한 사람 찾기
+		user_list.forEach(e -> {
+			if (e.getReportedCnt() >= k) {
+				for (User userE : user_list) {
+					if (userE.getReportedId().contains(e.getUser())) {
+						userE.sendMail();
+					}
+				}
+
+			}
+		});
+
+		int[] answer = new int[user_list.size()];
+
+		for (int z = 0; z < user_list.size(); z++) {
+			answer[z] = user_list.get(z).getReceivedMail();
+		}
+
 		return answer;
 	}
-	
+
+	class User {
+		String user;
+		List<String> reported_list = new ArrayList<String>();
+		int reported_cnt  = 0;
+		int received_mail = 0;
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
+
+		public List<String> getReportedId() {
+			return reported_list;
+		}
+
+		public void addReportedId(String reported_id) {
+			this.reported_list.add(reported_id);
+		}
+
+		public int getReportedCnt() {
+			return reported_cnt;
+		}
+
+		public void addReportedCnt() {
+			this.reported_cnt++;
+		}
+
+		public int getReceivedMail() {
+			return received_mail;
+		}
+
+		public void sendMail() {
+			this.received_mail++;
+		}
+	}
 }
