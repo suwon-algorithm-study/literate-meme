@@ -31,7 +31,7 @@ public class Solution {
                     this.head = fileName.substring(0, headIndex);
 
                     int numberIndex = headIndex + 1;
-                    while (numberIndex < fileName.length()  && fileName.charAt(numberIndex) >= '0' && fileName.charAt(numberIndex) <= '9') {
+                    while (numberIndex < fileName.length() && fileName.charAt(numberIndex) >= '0' && fileName.charAt(numberIndex) <= '9') {
                         numberIndex++;
                     }
                     this.number = fileName.substring(headIndex, numberIndex);

@@ -7,7 +7,7 @@ public class Solution {
 
     public static void main(String[] args) {
         int k = 7;
-        int [] scoville = {1, 2, 3};
+        int[] scoville = {1, 2, 3};
 
         Solution solution = new Solution();
         int answer = solution.solution(scoville, k);

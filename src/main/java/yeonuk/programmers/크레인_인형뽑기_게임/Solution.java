@@ -67,7 +67,7 @@ public class Solution {
             if (!movedQueue.isEmpty() && movedQueue.peek() == doll) {
                 movedQueue.pop();
                 count += 2;
-            } else if (doll != -1){
+            } else if (doll != -1) {
                 movedQueue.push(doll);
             }
         }

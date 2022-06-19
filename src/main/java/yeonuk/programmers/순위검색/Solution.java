@@ -1,6 +1,8 @@
 package yeonuk.programmers.순위검색;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Solution {
 

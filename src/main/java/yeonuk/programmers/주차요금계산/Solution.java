@@ -27,7 +27,7 @@ class Solution {
                 parkingLot.park(parkingHistory, parkingCar);
 
             } else if (parkingType == ParkingType.OUT) {
-                ParkingHistory parkingHistory = parkingLot.findLastParkingCar(carNumber);
+                ParkingHistory parkingHistory = parkingLot.findLastParkingHistory(carNumber);
                 parkingHistory.exit(parkTime);
             }
         }
@@ -74,7 +74,7 @@ class ParkingLot {
         }
     }
 
-    public ParkingHistory findLastParkingCar(String carNumber) {
+    public ParkingHistory findLastParkingHistory(String carNumber) {
         return parkingHistoryList.stream()
                 .filter(car -> car.equalsCarNumber(carNumber))
                 .filter(ParkingHistory::isRemain)
@@ -206,9 +206,6 @@ class ParkingHistory {
                 .toMinutes();
     }
 
-    public String getCarNumber() {
-        return carNumber;
-    }
 }
 
 class ParkingCar {
