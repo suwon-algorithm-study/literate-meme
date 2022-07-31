@@ -3,8 +3,6 @@ package yeonuk.baekjoon.temp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,29 +12,33 @@ public class Main {
             Input input = new Input();
             input.init();
 
-            Main main = new Main();
-            main.solve(input);
+            Solution solution = new Solution(input);
+            solution.solve();
         } catch (IOException e) {
             System.out.println("입력 오류");
         }
     }
+}
 
+class Solution {
 
-    public void solve(Input input) {
+    private final Input input;
 
+    public Solution(Input input) {
+        this.input = input;
     }
 
+    public void solve() {
+
+    }
 }
 
 class Input {
 
     private int n;
     private int m;
-    private List<String> values;
 
-    public Input() {
-        this.values = new ArrayList<>();
-    }
+    private int[][] values;
 
     public void init() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,10 +46,15 @@ class Input {
 
         n = Integer.parseInt(stk.nextToken());
         m = Integer.parseInt(stk.nextToken());
+        values = new int[n][m];
 
-        stk = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < n; i++) {
-            values.add(stk.nextToken());
+            stk = new StringTokenizer(br.readLine(), " ");
+            String token = stk.nextToken();
+            for (int j = 0; j < m; j++) {
+                int value = Integer.parseInt(String.valueOf(token.charAt(j)));
+                values[i][j] = value;
+            }
         }
 
         br.close();
@@ -61,7 +68,7 @@ class Input {
         return m;
     }
 
-    public List<String> getValues() {
+    public int[][] getValues() {
         return values;
     }
 }
