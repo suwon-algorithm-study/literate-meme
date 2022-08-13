@@ -1,13 +1,12 @@
 package seojeong.programmers.셔틀버스_리팩토링;
 
-import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Solution {
     /*
@@ -32,7 +31,6 @@ public class Solution {
         //String answer = solution.solution(1,1,5,new String[]{"08:00", "08:01", "08:02", "08:03"});
         String answer2 = solution.solution(10,60,45,new String[]{"23:59","23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59"});
         //System.out.println(answer);
-
         System.out.println(answer2);
     }
 
@@ -41,55 +39,51 @@ public class Solution {
         // map: 스트림 내 요소들을 하나씩 특정 값으로 변환해줌
         // sorted: 인자없이 호출할 경우 기본 오름차순 정렬
         // collect(Collectors.toList()): 스트림에서 작업한 결과를 리스트로 반환
+
+        LocalTime startTime = LocalTime.of(9,0);
+        //System.out.println("버스 운행 시작 시간: " + startTime);
+
+        //bussiness
         List<Passenger> list = Arrays.stream(timetable)
                 .map(Passenger::new)
                 .sorted()
                 .collect(Collectors.toList());
 
-        // 리스트 출력
-        /*
-        for(int i=0; i<list.size(); i++){
-            System.out.println(list.get(i).getArrivalTime());
-        }
-        */
+        List<Bus> busList = new ArrayList<>();
 
-        LocalTime startTime = LocalTime.of(9,0);
-        //System.out.println("버스 운행 시작 시간: " + startTime);
-
-        List<Passenger> tempList = new ArrayList<Passenger>();
-
-        String result = "";
         for(int i= 0; i<n; i++){
             // 버스 등장 -> 초기화시에 승객리스트는 빈 리스트로
-            Bus bus = new Bus(startTime,m,tempList); // 버스 처음 운행시각, 태울 수 있는 최대 인원, 승객리스트
+            Bus bus = new Bus(startTime,m); // 버스 처음 운행시각, 태울 수 있는 최대 인원, 승객리스트
 
             // 여기 들어가기전에 tempList에 값이 있어야함
+            List<Passenger> tempList = new ArrayList<>();
             for(Passenger passenger:list){
                 if(bus.checkSize() && passenger.getArrivalTime().isBefore(startTime)){
+                    bus.passengerRide(passenger);
                     tempList.add(passenger);
-                    //bus.passengerRide(passenger);
                 }else{
                     break;
                 }
             }
-
-            for(int k=0; k< tempList.size(); k++){
-                System.out.println(tempList.get(k).getArrivalTime());
-            }
-
-            startTime.plusMinutes(t);
-
-            if(i == n-1){
-                if(!bus.checkSize()){
-                    result = tempList.get(tempList.size()-1).getArrivalTime().minusMinutes(1).toString();
-                }else{
-                    result = bus.getArrivalTime().toString();
-                }
-            }
             list.removeAll(tempList);
 
+            busList.add(bus);
+
+            startTime = startTime.plusMinutes(t);
+//
+//            if(i == n-1){
+//                if(!bus.checkSize()){
+//                    result = bus.getLast().getArrivalTime().minusMinutes(1).toString();
+//                }else{
+//                    result = bus.getArrivalTime().toString();
+//                }
+//            }
         }
-        return result;
+        Bus lastBus = busList.get(busList.size()-1);
+        if(lastBus.checkSize()){
+            return lastBus.getArrivalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+        return lastBus.getPossibleArrivalTime();
     }
 
 }
@@ -106,14 +100,15 @@ class Bus{
     // 버스에 탄 승객 리스트
     private List<Passenger> passengers;
 
-    public Bus(LocalTime arrivalTime, int maxSize, List<Passenger> passengers) {
+    public Bus(LocalTime arrivalTime, int maxSize) {
         this.arrivalTime = arrivalTime;
         this.maxSize = maxSize;
-        this.passengers = passengers;
+        this.passengers = new ArrayList<>();
     }
 
     // 버스에 탈 수 있는 남은 자리가 있는지 체크
     // 남은 자리가 maxSize 보다 작은지 확인
+    // 메서드 명을 의미있게?
     public boolean checkSize(){
         if(passengers.size() < maxSize) return true;
         else return false;
@@ -125,6 +120,16 @@ class Bus{
 
     public LocalTime getArrivalTime() {
         return arrivalTime;
+    }
+    // 마지막 탑승자
+    public Passenger getLast(){
+        return passengers.get(passengers.size()-1);
+    }
+
+    // 탑승할 수 있는 마지막 시간
+    public String getPossibleArrivalTime(){
+        Passenger lastPassenger = passengers.get(passengers.size()-1);
+        return lastPassenger.getArrivalTime().minusMinutes(1).format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 }
 class Passenger implements Comparable<Passenger>{
