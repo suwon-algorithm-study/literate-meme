@@ -1,6 +1,7 @@
 package seojeong.programmers.순위검색_리팩토링;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -125,18 +126,24 @@ enum Language{
     PYTHON("python"),
     NONE("-");
 
-    private String language;
+    private final String language;
     Language(String language) {
         this.language = language;
     }
 
     public static Language findByValue(String value){
-        for(Language language:Language.values()){
-            if(language.language.equals(value)){
-                return language;
-            }
-        }
-        throw new IllegalArgumentException();
+//        for(Language language:Language.values()){
+//            if(language.language.equals(value)){
+//                return language;
+//            }
+//        }
+        //순차탐색 X
+        return Arrays.stream(Language.values())
+                .filter(language -> language.language.equals(value))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+
+        //throw new IllegalArgumentException();
     }
 }
 enum Position{
@@ -144,19 +151,23 @@ enum Position{
     FRONTEND("frontend"),
     NONE("-");
 
-    private String position;
+    private final String position;
 
     Position(String position){
         this.position = position;
     }
 
     public static Position findByValue(String value){
-        for(Position position: Position.values()){
-            if(position.position.equals(value)){
-                return position;
-            }
-        }
-        throw new IllegalArgumentException();
+//        for(Position position: Position.values()){
+//            if(position.position.equals(value)){
+//                return position;
+//            }
+//        }
+        return Arrays.stream(Position.values())
+                .filter(position -> position.position.equals(value))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+        //throw new IllegalArgumentException();
     }
 }
 enum Career{
@@ -164,19 +175,23 @@ enum Career{
     SENIOR("senior"),
     NONE("-");
 
-    private String career;
+    private final String career;
 
     Career(String career){
         this.career = career;
     }
 
     public static Career findByValue(String value) {
-        for (Career career : Career.values()) {
-            if(career.career.equals(value)) {
-                return career;
-            }
-        }
-        throw new IllegalArgumentException();
+//        for (Career career : Career.values()) {
+//            if(career.career.equals(value)) {
+//                return career;
+//            }
+//        }
+//        throw new IllegalArgumentException();
+        return Arrays.stream(Career.values())
+                .filter(career1 -> career1.career.equals(value))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
 enum Food{
@@ -184,18 +199,22 @@ enum Food{
     PIZZA("pizza"),
     NONE("-");
 
-    private String food;
+    private final String food;
 
     Food(String food){
         this.food = food;
     }
     public static Food findByValue(String value){
-       for(Food food: Food.values()){
-           if(food.food.equals(value)){
-               return food;
-           }
-       }
-       throw new IllegalArgumentException();
+//       for(Food food: Food.values()){
+//           if(food.food.equals(value)){
+//               return food;
+//           }
+//       }
+//       throw new IllegalArgumentException();
+        return Arrays.stream(Food.values())
+                .filter(food -> food.food.equals(value))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
 
